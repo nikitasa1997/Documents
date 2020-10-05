@@ -1,11 +1,11 @@
-$FilePath = "\Users\nikit\Downloads\services.json"
-$Encoding = "utf8"
+$FilePath = '\Users\nikit\Downloads\services.json'
+$Encoding = 'utf8'
 
 $Service = Get-Service | Select-Object -Property Name, ServiceType, StartType
 $LUID = $Service |
     Where-Object -Property ServiceType -in (224, 240) |
     Select-Object -ExpandProperty Name |
-    Foreach-Object -Process {$_ -replace '^.+?_'}
+    Foreach-Object -Process {$_ -replace '^.+_([0-9A-Z]{4,8})$', '$1'}
 $Service |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
