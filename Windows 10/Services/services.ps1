@@ -1,4 +1,4 @@
-$FilePath = '\Users\nikit\Downloads\services.json'
+$Path = '\Users\nikit\Downloads\services.json'
 $Encoding = 'utf8'
 
 $Service = Get-Service | Select-Object -Property Name, ServiceType, StartType
@@ -15,7 +15,7 @@ $Service |
         $Ordered
     } |
     ConvertTo-Json -Depth 1 |
-    Out-File -FilePath $FilePath -Encoding $Encoding
+    Set-Content -Path $Path -Encoding $Encoding
 
 
 
