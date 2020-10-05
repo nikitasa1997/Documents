@@ -1,0 +1,15 @@
+Appinfo
+SENS
+
+EventLog
+netprofm
+NlaSvc
+
+W32Time
+
+SDRSVC
+swprv
+
+SamSs
+
+camsvc
