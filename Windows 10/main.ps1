@@ -1,9 +1,9 @@
 $FilePath = "\Users\nikit\Downloads\services.json"
 $Encoding = "utf8"
 
-$Service = Get-Service
+$Service = Get-Service | select -Property Name, ServiceType, StartType
+$LUID = $Service | where ServiceType -in (224, 240) | select -Property Name
 $Service |
-    select -Property Name, StartType |
     foreach -Begin {
         $Ordered = [ordered]@{}
     } -Process {
@@ -13,8 +13,6 @@ $Service |
     } |
     ConvertTo-Json -Depth 1 |
     Out-File -FilePath $FilePath -Encoding $Encoding
-
-$Service = $Service | where ServiceType -in (224, 240) | select Name, StartType
 
 
 
