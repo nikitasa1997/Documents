@@ -1,10 +1,13 @@
 $FilePath = "\Users\nikit\Downloads\services.json"
 $Encoding = "utf8"
 
-$Service = Get-Service | select -Property Name, ServiceType, StartType
-$LUID = $Service | where ServiceType -in (224, 240) | select -Property Name
+$Service = Get-Service | Select-Object -Property Name, ServiceType, StartType
+$LUID = $Service |
+    Where-Object -Property ServiceType -in (224, 240) |
+    Select-Object -ExpandProperty Name |
+    Foreach-Object {$_ -replace '^.+?_', ''}
 $Service |
-    foreach -Begin {
+    Foreach-Object -Begin {
         $Ordered = [ordered]@{}
     } -Process {
         $Ordered.Add($_.Name, $_.StartType)
