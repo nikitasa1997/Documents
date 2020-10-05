@@ -5,11 +5,11 @@ $Service = Get-Service
 $Service |
     select -Property Name, StartType |
     foreach -Begin {
-        [hashtable]$Hashtable = [ordered]@{}
+        $Ordered = [ordered]@{}
     } -Process {
-        $Hashtable.Add($_.Name, $_.StartType)
+        $Ordered.Add($_.Name, $_.StartType)
     } -End {
-        $Hashtable
+        $Ordered
     } |
     ConvertTo-Json -Depth 1 |
     Out-File -FilePath $FilePath -Encoding $Encoding
