@@ -5,7 +5,7 @@ $Service = Get-Service | Select-Object -Property Name, ServiceType, StartType
 $LUID = $Service |
     Where-Object -Property ServiceType -in (224, 240) |
     Select-Object -ExpandProperty Name |
-    Foreach-Object {$_ -replace '^.+?_', ''}
+    Foreach-Object -Process {$_ -replace '^.+?_', ''}
 $Service |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
