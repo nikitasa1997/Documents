@@ -2,7 +2,7 @@ Set-StrictMode -Version Latest
 
 $DefaultLUID = '00000000'
 
-$Path = '\Users\nikit\Downloads\Documents\services.json'
+$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 $Encoding = 'utf8'
 
 $Service = Get-Service |
@@ -24,7 +24,10 @@ $Service |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
     } -Process {
-        $Ordered.Add($_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID", $_.StartType)
+        $Ordered.Add(
+            ($_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"),
+            $_.StartType
+        )
     } -End {
         $Ordered
     } |
