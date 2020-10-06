@@ -336,5 +336,20 @@
     "xTendSoftAPService":  4,
     "xTendUtilityService":  4,
     "XTU3SERVICE":  2,
-    "ZeroConfigService":  2
+    "ZeroConfigService":  2,
+    "BcastDVRUserService":  4,
+    "BluetoothUserService":  3,
+    "CaptureService":  3,
+    "cbdhsvc":  3,
+    "CDPUserSvc":  2,
+    "ConsentUxUserSvc":  3,
+    "DevicePickerUserSvc":  3,
+    "DevicesFlowUserSvc":  3,
+    "MessagingService":  3,
+    "OneSyncSvc":  2,
+    "PimIndexMaintenanceSvc":  3,
+    "PrintWorkflowUserSvc":  3,
+    "UnistoreSvc":  3,
+    "UserDataSvc":  3,
+    "WpnUserService":  2
 }
