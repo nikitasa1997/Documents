@@ -1,6 +1,6 @@
 Set-StrictMode -Version Latest
 
-$Encoding = 'utf8'
+$Encoding = 'UTF8'
 $DefaultLUID = '00000000'
 
 function ServiceTo-Json {
