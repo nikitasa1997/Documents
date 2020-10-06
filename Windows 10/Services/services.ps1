@@ -2,7 +2,7 @@ Set-StrictMode -Version Latest
 
 $DefaultLUID = '00000000'
 
-$Path = '\Users\nikit\Downloads\services.json'
+$Path = '\Users\nikit\Downloads\Documents\services.json'
 $Encoding = 'utf8'
 
 $Service = Get-Service |
@@ -24,20 +24,9 @@ $Service |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
     } -Process {
-        $Ordered.Add(($_.Name -replace "^(.+_)$LUID`$", "`$1$DefaultLUID"), $_.StartType)
+        $Ordered.Add($_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID", $_.StartType)
     } -End {
         $Ordered
     } |
     ConvertTo-Json -Depth 1 |
     Set-Content -Path $Path -Encoding $Encoding
-
-
-
-
-
-
-
-
-# $Service | select Name | -replace '^.+?_', '' | Sort-Object -Unique
-#function svcsuffix `%@word["_",1,%@execstr[wmiquery /a . "select Name from Win32_Service" | ffind /k /m /e"_[0-9a-f]+$"]]`
-#echo %@svcsuffix[]
