@@ -1,10 +1,13 @@
+param(
+    $Command = $(throw "Command parameter is required.")
+)
 Set-StrictMode -Version Latest
 
 $Encoding = 'UTF8'
 $DefaultLUID = '00000000'
 
-function ServiceTo-Json {
-    Param(
+function Export-Service {
+    param(
         [string]$Path
     )
     process {
@@ -38,4 +41,18 @@ function ServiceTo-Json {
     }
 }
 
-ServiceTo-Json('\Users\nikit\Downloads\Documents\Windows 10\Services\services.json')
+function Import-Service {
+    param(
+        [string]$Path
+    )
+    process {
+        Get-Content -Path $Path -Encoding $Encoding |
+            ConvertFrom-Json
+        $ht2 = @{}
+        $theObject.psobject.properties | Foreach { $ht2[$_.Name] = $_.Value }
+    }
+}
+
+$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
+Export-Service -Path $Path
+Import-Service -Path $Path
