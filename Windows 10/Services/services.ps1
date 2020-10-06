@@ -1,3 +1,5 @@
+Set-StrictMode -Version 5.1
+
 $Path = '\Users\nikit\Downloads\services.json'
 $Encoding = 'utf8'
 
@@ -5,7 +7,9 @@ $Service = Get-Service | Select-Object -Property Name, ServiceType, StartType
 $LUID = $Service |
     Where-Object -Property ServiceType -in (224, 240) |
     Select-Object -ExpandProperty Name |
-    Foreach-Object -Process {$_ -replace '^.+_([0-9A-Z]{4,8})$', '$1'}
+    Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
+    Sort-Object -Unique
+$LUID
 $Service |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
@@ -24,6 +28,6 @@ $Service |
 
 
 
-$Service | select Name | -replace '^.+?_', '' | Sort-Object -Unique
-function svcsuffix `%@word["_",1,%@execstr[wmiquery /a . "select Name from Win32_Service" | ffind /k /m /e"_[0-9a-f]+$"]]`
-echo %@svcsuffix[]
+# $Service | select Name | -replace '^.+?_', '' | Sort-Object -Unique
+#function svcsuffix `%@word["_",1,%@execstr[wmiquery /a . "select Name from Win32_Service" | ffind /k /m /e"_[0-9a-f]+$"]]`
+#echo %@svcsuffix[]
