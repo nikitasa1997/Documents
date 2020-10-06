@@ -9,7 +9,7 @@ $Service = Get-Service |
     Select-Object -Property Name, ServiceType, StartType
 
 $PerUserServices = $Service |
-    Where-Object -Property ServiceType -in (224, 240) |
+    Where-Object -Property ServiceType -In -Value @(224, 240) |
     Select-Object -ExpandProperty Name
 $LUID = $PerUserServices |
     Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
