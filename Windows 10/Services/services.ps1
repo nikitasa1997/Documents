@@ -1,4 +1,4 @@
-Set-StrictMode -Version 5.1
+Set-StrictMode -Version Latest
 
 $Path = '\Users\nikit\Downloads\services.json'
 $Encoding = 'utf8'
