@@ -23,10 +23,8 @@ $Service |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
     } -Process {
-        $Ordered.Add(
-            ($_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"),
-            $_.StartType
-        )
+        $_.Name = $_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"
+        $Ordered.Add($_.Name, $_.StartType)
     } -End {
         $Ordered
     } |
