@@ -7,7 +7,6 @@ $Encoding = 'utf8'
 
 $Service = Get-Service |
     Select-Object -Property Name, ServiceType, StartType
-
 $PerUserServices = $Service |
     Where-Object -Property ServiceType -In -Value @(224, 240) |
     Select-Object -ExpandProperty Name
