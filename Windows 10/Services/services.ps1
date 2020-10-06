@@ -20,6 +20,7 @@ $Service += $PerUserServices |
     Select-Object -Property Name, StartType
 
 $Service |
+    Sort-Object -Property Name |
     Foreach-Object -Begin {
         $Ordered = [ordered]@{}
     } -Process {
