@@ -4,8 +4,8 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$Encoding = 'UTF8'
-$DefaultLUID = '00000000'
+[string]$DefaultLUID = '00000000'
+[string]$Encoding = 'UTF8'
 
 function Export-Service {
     param(
