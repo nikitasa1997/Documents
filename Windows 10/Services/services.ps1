@@ -15,7 +15,7 @@ function Export-Service {
     process {
         [hashtable]$Service96 = @{}
         $Service = Get-Service |
-            Select-Object -Property @{Name = 'Name'; Expression = {
+            Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
                 if ($_.ServiceType -in @(224, 240)) {
                     $Service96[$_.Name -replace $Pattern, '$1'] = $null
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
