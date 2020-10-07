@@ -12,22 +12,15 @@ function Export-Service {
         [string]$Path
     )
     process {
+        $Service96 = @{}
         $Service = Get-Service |
-            Select-Object -Property Name, ServiceType, StartType
-        $PerUserService = $Service |
-            Where-Object -Property ServiceType -In -Value @(224, 240) |
-            Select-Object -ExpandProperty Name
-        $LUID = $PerUserService |
-            Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
-            Sort-Object -Unique
-        $Service = $Service |
-            Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
+            Select-Object -Property @{Name = 'Name'; Expression = {
                 if ($_.ServiceType -in @(224, 240)) {
-                    $_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"
+                    $Service96[$_.Name -replace '^(.+)_[0-9a-f]{4,8}$', '$1'] = $null
+                    $_.Name -replace '^(.+)_[0-9a-f]{4,8}$', "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service += $PerUserService |
-            Foreach-Object -Process {$_ -replace "^(.+)_$LUID`$", '$1'} |
+        $Service += $Service96.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
 
