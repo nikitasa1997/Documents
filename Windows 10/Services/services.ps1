@@ -1,7 +1,7 @@
 param(
     $Command = $(throw "Command parameter is required.")
 )
-Set-StrictMode -Version Latest
+# Set-StrictMode -Version Latest
 
 $Encoding = 'UTF8'
 $DefaultLUID = '00000000'
@@ -19,17 +19,21 @@ function Export-Service {
         $LUID = $PerUserServices |
             Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
             Sort-Object -Unique
+        $Service = $Service |
+            Select-Object -Property @{Name = 'Name'; Expression = {
+                if ($_.ServiceType -in @(224, 240)) {
+                    $_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"
+                } else {$_.Name}
+            }}, StartType
         $Service += $PerUserServices |
             Foreach-Object -Process {$_ -replace "^(.+)_$LUID`$", '$1'} |
             Get-Service |
-            Select-Object -Property Name, ServiceType, StartType
+            Select-Object -Property Name, StartType
 
         $Service |
             Sort-Object -Property Name |
             Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
-                $Ordered.Add($(if ($_.ServiceType -in @(224, 240)) {
-                    $_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"
-                } else {$_.Name}), $_.StartType)
+                $Ordered.Add($_.Name, $_.StartType)
             } -End {$Ordered} |
             ConvertTo-Json -Depth 1 |
             Set-Content -Path $Path -Encoding $Encoding
