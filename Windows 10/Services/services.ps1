@@ -17,9 +17,9 @@ function Export-Service {
         $PerUserService = $Service |
             Where-Object -Property ServiceType -In -Value @(224, 240) |
             Select-Object -ExpandProperty Name
-        $LUID = $PerUserService |
+        [string]$LUID = $PerUserService |
             Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
-            Sort-Object -Unique
+            Select-Object -Unique
         $Service = $Service |
             Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
                 if ($_.ServiceType -in @(224, 240)) {
