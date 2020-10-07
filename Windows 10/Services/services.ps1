@@ -4,24 +4,24 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$Encoding = 'UTF8'
-$Pattern = '^(.+)_[0-9a-f]{4,8}$'
-$DefaultLUID = '00000000'
+[string]$DefaultLUID = '00000000'
+[string]$Encoding = 'UTF8'
+[string]$Pattern = '^(.+)_[0-9a-f]{4,8}$'
 
 function Export-Service {
     param(
         [string]$Path
     )
     process {
-        [hashtable]$Service96 = @{}
+        [hashtable]$PerUserService = @{}
         $Service = Get-Service |
             Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
                 if ($_.ServiceType -in @(224, 240)) {
-                    $Service96[$_.Name -replace $Pattern, '$1'] = $null
+                    $PerUserService[$_.Name -replace $Pattern, '$1'] = $null
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service += $Service96.Keys |
+        $Service += $PerUserService.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
 
