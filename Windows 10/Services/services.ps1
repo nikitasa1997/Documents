@@ -2,6 +2,7 @@ param(
     $Command = $(throw "Command parameter is required.")
 )
 Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
 $Encoding = 'UTF8'
 $DefaultLUID = '00000000'
@@ -45,7 +46,7 @@ function Import-Service {
         [string]$Path
     )
     process {
-        Get-Content -Path $Path -Encoding $Encoding |
+        $Object Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
         $ht2 = @{}
         $theObject.psobject.properties | Foreach { $ht2[$_.Name] = $_.Value }
