@@ -14,19 +14,19 @@ function Export-Service {
     process {
         $Service = Get-Service |
             Select-Object -Property Name, ServiceType, StartType
-        $PerUserServices = $Service |
+        $PerUserService = $Service |
             Where-Object -Property ServiceType -In -Value @(224, 240) |
             Select-Object -ExpandProperty Name
-        $LUID = $PerUserServices |
+        $LUID = $PerUserService |
             Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
             Sort-Object -Unique
         $Service = $Service |
-            Select-Object -Property @{Name = 'Name'; Expression = {
+            Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
                 if ($_.ServiceType -in @(224, 240)) {
                     $_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service += $PerUserServices |
+        $Service += $PerUserService |
             Foreach-Object -Process {$_ -replace "^(.+)_$LUID`$", '$1'} |
             Get-Service |
             Select-Object -Property Name, StartType
@@ -46,7 +46,7 @@ function Import-Service {
         [string]$Path
     )
     process {
-        $Object Get-Content -Path $Path -Encoding $Encoding |
+        $Object = Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
         $ht2 = @{}
         $theObject.psobject.properties | Foreach { $ht2[$_.Name] = $_.Value }
