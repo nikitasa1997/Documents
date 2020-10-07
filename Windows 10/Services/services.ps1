@@ -1,7 +1,7 @@
 param(
     $Command = $(throw "Command parameter is required.")
 )
-# Set-StrictMode -Version Latest
+Set-StrictMode -Version Latest
 
 $Encoding = 'UTF8'
 $DefaultLUID = '00000000'
