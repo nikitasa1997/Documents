@@ -1,6 +1,3 @@
-param(
-    $Command = $(throw "Command parameter is required.")
-)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
@@ -9,12 +6,13 @@ $ErrorActionPreference = "Stop"
 [string]$Pattern = '^(.+)_[0-9a-f]{4,8}$'
 
 function Export-Service {
+    [CmdletBinding()]
     param(
         [string]$Path
     )
     process {
         [hashtable]$PerUserService = @{}
-        $Service = Get-Service |
+        [PSCustomObject[]]$Service = Get-Service |
             Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
                 if ($_.ServiceType -in @(224, 240)) {
                     $PerUserService[$_.Name -replace $Pattern, '$1'] = $null
@@ -49,4 +47,3 @@ function Import-Service {
 
 $Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 Export-Service -Path $Path
-# Import-Service -Path $Path
