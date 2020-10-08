@@ -11,15 +11,15 @@ function Export-Service {
         [string]$Path
     )
     process {
-        [hashtable]$PerUserService = @{}
+        [hashtable]$Service96 = @{}
         [PSCustomObject[]]$Service = Get-Service |
-            Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
+            Select-Object -Property @{Name = 'Name'; Expression = {
                 if ($_.ServiceType -in @(224, 240)) {
-                    $PerUserService[$_.Name -replace $Pattern, '$1'] = $null
+                    $Service96.Add(($_.Name -replace $Pattern, '$1'), $null)
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service += $PerUserService.Keys |
+        $Service += $Service96.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
 
