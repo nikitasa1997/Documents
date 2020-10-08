@@ -1,5 +1,5 @@
 Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = 'Stop'
 
 [string]$DefaultLUID = '00000000'
 [string]$Encoding = 'UTF8'
