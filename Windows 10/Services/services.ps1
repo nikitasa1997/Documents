@@ -3,28 +3,23 @@ $ErrorActionPreference = 'Stop'
 
 [string]$DefaultLUID = '00000000'
 [string]$Encoding = 'UTF8'
+[string]$Pattern = '^(.+)_[0-9a-f]{4,8}$'
 
 function Export-Service {
+    [CmdletBinding()]
     param(
         [string]$Path
     )
     process {
+        [hashtable]$Service96 = @{}
         [PSCustomObject[]]$Service = Get-Service |
-            Select-Object -Property Name, ServiceType, StartType
-        [PSCustomObject[]]$PerUserService = $Service |
-            Where-Object -Property ServiceType -In -Value @(224, 240) |
-            Select-Object -ExpandProperty Name
-        [string]$LUID = $PerUserService |
-            Foreach-Object -Process {$_ -replace '^.+_([0-9a-f]{4,8})$', '$1'} |
-            Select-Object -Unique
-        $Service = $Service |
-            Select-Object -Property @{'Name' = 'Name'; 'Expression' = {
+            Select-Object -Property @{Name = 'Name'; Expression = {
                 if ($_.ServiceType -in @(224, 240)) {
-                    $_.Name -replace "^(.+)_$LUID`$", "`$1_$DefaultLUID"
+                    $Service96.Add(($_.Name -replace $Pattern, '$1'), $null)
+                    $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service += $PerUserService |
-            Foreach-Object -Process {$_ -replace "^(.+)_$LUID`$", '$1'} |
+        $Service += $Service96.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
 
