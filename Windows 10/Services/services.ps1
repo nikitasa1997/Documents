@@ -1,6 +1,3 @@
-param(
-    $Command = $(throw "Command parameter is required.")
-)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
@@ -12,9 +9,9 @@ function Export-Service {
         [string]$Path
     )
     process {
-        $Service = Get-Service |
+        [PSCustomObject[]]$Service = Get-Service |
             Select-Object -Property Name, ServiceType, StartType
-        $PerUserService = $Service |
+        [PSCustomObject[]]$PerUserService = $Service |
             Where-Object -Property ServiceType -In -Value @(224, 240) |
             Select-Object -ExpandProperty Name
         [string]$LUID = $PerUserService |
@@ -55,4 +52,3 @@ function Import-Service {
 
 $Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 Export-Service -Path $Path
-# Import-Service -Path $Path
