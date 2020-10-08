@@ -5,7 +5,7 @@ $ErrorActionPreference = 'Stop'
 
 function Get-ServiceAsHashtable {
     [CmdletBinding()]
-    [OutputType([hashtable])]
+    [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param()
     begin {
         [string]$DefaultLUID = '00000000'
@@ -36,7 +36,7 @@ function Read-HashtableFromJson {
     [CmdletBinding()]
     [OutputType([hashtable])]
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, Positional = )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({Test-Path -Path $_ -Include '*.json' -PathType Leaf})]
@@ -56,7 +56,7 @@ function Set-ServiceFromHashtable {
     [CmdletBinding()]
     [OutputType([System.Void])]
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, Positional = )]
         [hashtable]
         $Hashtable
     )
@@ -68,7 +68,7 @@ function Set-ServiceFromHashtable {
 function Write-HashtableToJson {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, Positional = )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidatePattern("*.json")]
