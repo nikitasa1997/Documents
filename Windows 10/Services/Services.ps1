@@ -3,9 +3,9 @@ $ErrorActionPreference = 'Stop'
 
 [string]$Encoding = 'UTF8'
 
-function Get-ServiceAsHashtable {
+function Get-ServiceAsArray {
     [CmdletBinding()]
-    [OutputType([System.Collections.Specialized.OrderedDictionary])]
+    [OutputType([pscustomobject[]])]
     param()
     begin {
         [string]$DefaultLUID = '00000000'
@@ -13,30 +13,30 @@ function Get-ServiceAsHashtable {
     }
     process {
         [hashtable]$Service96 = @{}
-        [PSCustomObject[]]$Service = Get-Service |
+        [pscustomobject[]]$Service = Get-Service |
             Select-Object -Property @{Name = 'Name'; Expression = {
                 if ($_.ServiceType -in @(224, 240)) {
                     $Service96.Add(($_.Name -replace $Pattern, '$1'), $null)
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service += $Service96.Keys |
+        return $Service + $Service96.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
-
-        $Service |
-            Sort-Object -Property Name |
-            Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
-                $Ordered.Add($_.Name, $_.StartType)
-            } -End {$Ordered}
     }
 }
 
-function Read-HashtableFromJson {
+function Read-ArrayFromJson {
     [CmdletBinding()]
-    [OutputType([hashtable])]
+    [OutputType([pscustomobject[]])]
     param(
-        [Parameter(Mandatory=$true, Positional = )]
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$false,
+            ValueFromPipelineByPropertyName=$false,
+            ValueFromRemainingArguments=$false
+        )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({Test-Path -Path $_ -Include '*.json' -PathType Leaf})]
@@ -44,19 +44,21 @@ function Read-HashtableFromJson {
         $Path
     )
     process {
-        $Object = Get-Content -Path $Path -Encoding $Encoding |
+        [pscustomobject]$Object = Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
-        $ht2 = @{}
-        $theObject.psobject.properties |
-            Foreach { $ht2[$_.Name] = $_.Value }
+        $Object.psobject.Properties |
+            Sort-Object -Property Name |
+            Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
+                $Ordered.Add($_.Name, $_.Value)
+            } -End {$Ordered}
     }
 }
 
 function Set-ServiceFromHashtable {
     [CmdletBinding()]
-    [OutputType([System.Void])]
+    [OutputType()]
     param(
-        [Parameter(Mandatory=$true, Positional = )]
+        [Parameter(Mandatory=$true, Position=0)]
         [hashtable]
         $Hashtable
     )
@@ -67,18 +69,49 @@ function Set-ServiceFromHashtable {
 
 function Write-HashtableToJson {
     [CmdletBinding()]
+    [OutputType()]
     param(
-        [Parameter(Mandatory=$true, Positional = )]
+        [Parameter(
+            Mandatory=$true,
+            Position=0,
+            ValueFromPipeline=$false,
+            ValueFromPipelineByPropertyName=$false,
+            ValueFromRemainingArguments=$false
+        )]
+        [ValidateNotNull()]
+        [ValidateNotNullOrEmpty()]
+        [ValidatePattern("*.json")]
+        [ValidateScript({Test-Path -Path $_ -Filter '*.json' -IsValid -PathType Leaf})]
+        [string]
+        $Path
+    )
+
+    [CmdletBinding()]
+    [OutputType()]
+    param(
+        [Parameter(Mandatory=$true, Position=0)]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidatePattern("*.json")]
         [ValidateScript({Test-Path -Path $_ -Filter '*.json' -PathType Leaf -IsValid})]
         [string]
-        $Path
+        $Path,
+        [Parameter(Mandatory=$true, Position=1)]
+        [ValidateNotNullOrEmpty()]
+        [ValidateScript({$_. -Filter '*.json' -PathType Leaf -IsValid})]
+        [System.Collections.Specialized.OrderedDictionary]
+        $Hashtable
     )
     process {
-    ConvertTo-Json -Depth 1 |
-    Set-Content -Path $Path -Encoding $Encoding
+        $Service |
+            Sort-Object -Property Name |
+            Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
+                $Ordered.Add($_.Name, $_.StartType)
+            } -End {$Ordered}
+        $Hashtable |
+            ConvertTo-Json -Depth 1 |
+            Set-Content -Path $Path -Encoding $Encoding
+    }
 }
 
 $Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
