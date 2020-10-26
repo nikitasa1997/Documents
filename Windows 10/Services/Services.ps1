@@ -20,9 +20,10 @@ function Get-ServiceAsArray {
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        return $Service + $Service96.Keys |
+        return $Service + ($Service96.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
+        )
     }
 }
 
@@ -34,12 +35,14 @@ function Read-ArrayFromJson {
             Mandatory=$true,
             Position=0,
             ValueFromPipeline=$false,
-            ValueFromPipelineByPropertyName=$false,
+            ValueFromPipelineByPropertyName=$true,
             ValueFromRemainingArguments=$false
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({Test-Path -Path $_ -Include '*.json' -PathType Leaf})]
+        [ValidateScript({
+            Test-Path -Path $_ -Filter '*.json' -Include '*.json' -PathType Leaf
+        })]
         [string]
         $Path
     )
@@ -54,7 +57,7 @@ function Read-ArrayFromJson {
     }
 }
 
-function Set-ServiceFromHashtable {
+function Set-ServiceFromArray {
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -67,7 +70,7 @@ function Set-ServiceFromHashtable {
     }
 }
 
-function Write-HashtableToJson {
+function Write-ArrayToJson {
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -75,32 +78,38 @@ function Write-HashtableToJson {
             Mandatory=$true,
             Position=0,
             ValueFromPipeline=$false,
-            ValueFromPipelineByPropertyName=$false,
+            ValueFromPipelineByPropertyName=$true,
             ValueFromRemainingArguments=$false
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidatePattern("*.json")]
-        [ValidateScript({Test-Path -Path $_ -Filter '*.json' -IsValid -PathType Leaf})]
-        [string]
-        $Path
-    )
-
-    [CmdletBinding()]
-    [OutputType()]
-    param(
-        [Parameter(Mandatory=$true, Position=0)]
-        [ValidateNotNull()]
-        [ValidateNotNullOrEmpty()]
-        [ValidatePattern("*.json")]
-        [ValidateScript({Test-Path -Path $_ -Filter '*.json' -PathType Leaf -IsValid})]
+        [ValidateScript({Test-Path `
+            -Path $_ `
+            -Filter '*.json' `
+            -Include '*.json' `
+            -PathType Leaf `
+            -IsValid
+        })]
         [string]
         $Path,
-        [Parameter(Mandatory=$true, Position=1)]
+        [Parameter(
+            Mandatory=$true,
+            Position=1,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            ValueFromRemainingArguments=$false
+        )]
+        [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({$_. -Filter '*.json' -PathType Leaf -IsValid})]
-        [System.Collections.Specialized.OrderedDictionary]
-        $Hashtable
+        [ValidateScript({$_.Count -eq $_ |
+            Where-Object `
+                -Property StartType `
+                -In `
+                -Value ('Automatic', 'Disabled', 'Manual')
+        })]
+        [pscustomobject[]]
+        $Service
     )
     process {
         $Service |
