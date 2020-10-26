@@ -40,15 +40,19 @@ function Read-ArrayFromJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({
-            Test-Path -Path $_ -Filter '*.json' -Include '*.json' -PathType Leaf
+        [ValidatePattern('^.*\.json$')]
+        [ValidateScript({Test-Path `
+            -Path $_ `
+            -Filter '*.json' `
+            -Include '*.json' `
+            -PathType Leaf
         })]
         [string]
         $Path
     )
     process {
-#       [System.Enum]::Parse([System.ServiceProcess.ServiceStartMode], 'Manual')
-        @()
+        Get-Content -Path $Path -Encoding $Encoding |
+            ConvertFrom-Json # TODO
     }
 }
 
