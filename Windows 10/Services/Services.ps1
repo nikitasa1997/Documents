@@ -116,8 +116,7 @@ function Write-ArrayToJson {
             Sort-Object -Property Name |
             Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
                 $Ordered.Add($_.Name, $_.StartType)
-            } -End {$Ordered}
-        $Hashtable |
+            } -End {$Ordered} |
             ConvertTo-Json -Depth 1 |
             Set-Content -Path $Path -Encoding $Encoding
     }
