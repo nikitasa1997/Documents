@@ -83,7 +83,7 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidatePattern("*.json")]
+        [ValidatePattern('*.json')]
         [ValidateScript({Test-Path `
             -Path $_ `
             -Filter '*.json' `
