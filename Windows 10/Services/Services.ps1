@@ -83,7 +83,6 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-#       [ValidatePattern('^([A-Za-z]:|\\)\.json$')]
         [ValidatePattern('^.*\.json$')]
         [ValidateScript({Test-Path `
             -Path $_ `
