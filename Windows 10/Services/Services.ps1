@@ -83,7 +83,7 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidatePattern('*.json')]
+#       [ValidatePattern('*.json')]
         [ValidateScript({Test-Path `
             -Path $_ `
             -Filter '*.json' `
@@ -102,12 +102,14 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
+<#
         [ValidateScript({$_.Count -eq $_ |
             Where-Object `
                 -Property StartType `
                 -In `
                 -Value ('Automatic', 'Disabled', 'Manual')
         })]
+#>
         [pscustomobject[]]
         $Service
     )
@@ -122,6 +124,8 @@ function Write-ArrayToJson {
     }
 }
 
-$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 # Set-ServiceFromArray(Get-ServiceAsArray)
-$Service = Get-ServiceAsArray
+
+[string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
+[pscustomobject[]]$Service = Get-ServiceAsArray
+Write-ArrayToJson -Path $Path -Service $Service
