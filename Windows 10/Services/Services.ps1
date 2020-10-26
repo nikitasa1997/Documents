@@ -83,12 +83,6 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-<#
-        C:\users\nikit\Downloads\Documents\Windows 10\Services\services.json
-        \users\nikit\Downloads\Documents\Windows 10\Services\services.json
-        test.json
-        .\services.json
-#>
 #       [ValidatePattern('^([A-Za-z]:|\\)\.json$')]
         [ValidatePattern('^.*\.json$')]
         [ValidateScript({Test-Path `
