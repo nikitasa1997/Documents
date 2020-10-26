@@ -20,10 +20,16 @@ function Get-ServiceAsArray {
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
+<#
         return $Service + ($Service96.Keys |
             Get-Service |
             Select-Object -Property Name, StartType
         )
+#>
+        return $Service + (Get-Service -Name @($Service96.Keys)) |
+            Select-Object -Property Name, @{Name = 'StartType'; Expression = {
+                $_.StartType -as [int]
+            }}
     }
 }
 
@@ -47,13 +53,8 @@ function Read-ArrayFromJson {
         $Path
     )
     process {
-        [pscustomobject]$Object = Get-Content -Path $Path -Encoding $Encoding |
-            ConvertFrom-Json
-        $Object.psobject.Properties |
-            Sort-Object -Property Name |
-            Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
-                $Ordered.Add($_.Name, $_.Value)
-            } -End {$Ordered}
+#       [System.Enum]::Parse([System.ServiceProcess.ServiceStartMode], 'Manual')
+        @()
     }
 }
 
@@ -61,12 +62,34 @@ function Set-ServiceFromArray {
     [CmdletBinding()]
     [OutputType()]
     param(
-        [Parameter(Mandatory=$true, Position=0)]
-        [hashtable]
-        $Hashtable
+        [Parameter(
+            Mandatory=$true,
+            Position=1,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            ValueFromRemainingArguments=$false
+        )]
+        [ValidateNotNull()]
+        [ValidateNotNullOrEmpty()]
+<#
+        [ValidateScript({$_.StartType -in @(
+            'Automatic',
+            'Disabled',
+            'Manual'
+        ) -and $_.Name.GetType() -eq [string] -and ($_ |
+            Get-Member -MemberType NoteProperty).Count -eq 2
+        })]
+#>
+        [ValidateScript({$_.StartType -in @(
+            'Automatic',
+            'Disabled',
+            'Manual'
+        ) -and $_.Name.GetType() -eq [string]})]
+        [pscustomobject[]]
+        $Service
     )
     process {
-        Write-Host $Hashtable.Count
+        Write-Host $Service.Count
     }
 }
 
@@ -103,13 +126,14 @@ function Write-ArrayToJson {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
 <#
-        [ValidateScript({$_.Count -eq $_ |
-            Where-Object `
-                -Property StartType `
-                -In `
-                -Value ('Automatic', 'Disabled', 'Manual')
+        [ValidateScript({$_.Name.GetType() -eq [string] -and
+            $_.StartType.GetType() -eq [int] -and $_.StartType -in @(2..4) -and
+            ($_ | Get-Member -MemberType NoteProperty).Count -eq 2
         })]
 #>
+        [ValidateScript({$_.Name.GetType() -eq [string] -and
+            $_.StartType.GetType() -eq [int] -and $_.StartType -in @(2..4)
+        })]
         [pscustomobject[]]
         $Service
     )
@@ -123,8 +147,6 @@ function Write-ArrayToJson {
             Set-Content -Path $Path -Encoding $Encoding
     }
 }
-
-# Set-ServiceFromArray(Get-ServiceAsArray)
 
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 [pscustomobject[]]$Service = Get-ServiceAsArray
