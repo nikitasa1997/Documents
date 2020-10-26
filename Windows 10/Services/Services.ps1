@@ -20,12 +20,6 @@ function Get-ServiceAsArray {
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-<#
-        return $Service + ($Service96.Keys |
-            Get-Service |
-            Select-Object -Property Name, StartType
-        )
-#>
         return $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'StartType'; Expression = {
                 $_.StartType -as [int]
@@ -71,25 +65,22 @@ function Set-ServiceFromArray {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-<#
-        [ValidateScript({$_.StartType -in @(
-            'Automatic',
-            'Disabled',
-            'Manual'
-        ) -and $_.Name.GetType() -eq [string] -and ($_ |
-            Get-Member -MemberType NoteProperty).Count -eq 2
+        [ValidateScript({$_.Name.GetType() `
+            -eq [string] `
+            -and $_.StartType.GetType() `
+            -eq [int] `
+            -and $_.StartType `
+            -in @(2..4) `
+            -and (Get-Member -InputObject $_ -MemberType NoteProperty).Count `
+            -eq 2
         })]
-#>
-        [ValidateScript({$_.StartType -in @(
-            'Automatic',
-            'Disabled',
-            'Manual'
-        ) -and $_.Name.GetType() -eq [string]})]
         [pscustomobject[]]
         $Service
     )
     process {
-        Write-Host $Service.Count
+        $Service | Foreach-Object -Process {
+            Set-Service -Name $_.Name -StartupType $_.StartType
+        }
     }
 }
 
@@ -125,14 +116,14 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-<#
-        [ValidateScript({$_.Name.GetType() -eq [string] -and
-            $_.StartType.GetType() -eq [int] -and $_.StartType -in @(2..4) -and
-            ($_ | Get-Member -MemberType NoteProperty).Count -eq 2
-        })]
-#>
-        [ValidateScript({$_.Name.GetType() -eq [string] -and
-            $_.StartType.GetType() -eq [int] -and $_.StartType -in @(2..4)
+        [ValidateScript({$_.Name.GetType() `
+            -eq [string] `
+            -and $_.StartType.GetType() `
+            -eq [int] `
+            -and $_.StartType `
+            -in @(2..4) `
+            -and (Get-Member -InputObject $_ -MemberType NoteProperty).Count `
+            -eq 2
         })]
         [pscustomobject[]]
         $Service
@@ -151,3 +142,4 @@ function Write-ArrayToJson {
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 [pscustomobject[]]$Service = Get-ServiceAsArray
 Write-ArrayToJson -Path $Path -Service $Service
+# Set-ServiceFromArray -Service $Service
