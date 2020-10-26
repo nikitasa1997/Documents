@@ -178,7 +178,7 @@
     "nvagent":  3,
     "NvContainerLocalSystem":  4,
     "NvContainerNetworkService":  4,
-    "NVDisplay.ContainerLocalSystem":  2,
+    "NVDisplay.ContainerLocalSystem":  4,
     "NvTelemetryContainer":  4,
     "OneSyncSvc":  2,
     "OneSyncSvc_00000000":  2,
