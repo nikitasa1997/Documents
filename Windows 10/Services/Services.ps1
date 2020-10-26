@@ -123,5 +123,5 @@ function Write-ArrayToJson {
 }
 
 $Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
-# Export-Service -Path $Path
-Set-ServiceFromHashtable(Get-ServiceAsHashtable)
+# Set-ServiceFromHashtable(Get-ServiceAsArray)
+$Service = Get-ServiceAsArray
