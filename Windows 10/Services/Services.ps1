@@ -27,6 +27,10 @@ function Get-ServiceAsArray {
     }
 }
 
+#        Read-ArrayFromFile
+#        Read-ArrayFromFileAsJson
+#        Read-ServiceFromFile
+#        Read-ServiceFromJsonFile
 function Read-ArrayFromJson {
     [CmdletBinding()]
     [OutputType([pscustomobject[]])]
@@ -77,6 +81,8 @@ function Set-ServiceFromArray {
             -in @(2..4) `
             -and (Get-Member -InputObject $_ -MemberType NoteProperty).Count `
             -eq 2
+#           -and (Get-Member -InputObject $_ -MemberType NoteProperty) `
+#           -eq @('Name', 'StartType')
         })]
         [pscustomobject[]]
         $Service
@@ -88,6 +94,10 @@ function Set-ServiceFromArray {
     }
 }
 
+#        Write-ArrayToFile
+#        Write-ArrayToFileAsJson
+#        Write-ServiceToFile
+#        Write-ServiceToJsonFile
 function Write-ArrayToJson {
     [CmdletBinding()]
     [OutputType()]
@@ -128,6 +138,8 @@ function Write-ArrayToJson {
             -in @(2..4) `
             -and (Get-Member -InputObject $_ -MemberType NoteProperty).Count `
             -eq 2
+#           -and (Get-Member -InputObject $_ -MemberType NoteProperty) `
+#           -eq @('Name', 'StartType')
         })]
         [pscustomobject[]]
         $Service
