@@ -22,7 +22,7 @@ function Get-ServiceAsArray {
             }}, StartType
         return $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'StartType'; Expression = {
-                [string] $_.StartType
+                [string]$_.StartType
             }}
     }
 }
