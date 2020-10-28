@@ -22,7 +22,7 @@ function Get-ServiceAsArray {
             }}, StartType
         return $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'StartType'; Expression = {
-                $_.StartType -as [int]
+                [string] $_.StartType
             }}
     }
 }
@@ -73,16 +73,11 @@ function Set-ServiceFromArray {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({$_.Name.GetType() `
-            -eq [string] `
-            -and $_.StartType.GetType() `
-            -eq [int] `
-            -and $_.StartType `
-            -in @(2..4) `
-            -and (Get-Member -InputObject $_ -MemberType NoteProperty).Count `
-            -eq 2
-#           -and (Get-Member -InputObject $_ -MemberType NoteProperty) `
-#           -eq @('Name', 'StartType')
+        [ValidateScript({
+            ($_ | Get-Member -MemberType NoteProperty).Count -eq 2 `
+            -and $_.Name -is [string] `
+            -and $_.StartType -is [string] `
+            -and $_.StartType -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
         $Service
@@ -130,16 +125,11 @@ function Write-ArrayToJson {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({$_.Name.GetType() `
-            -eq [string] `
-            -and $_.StartType.GetType() `
-            -eq [int] `
-            -and $_.StartType `
-            -in @(2..4) `
-            -and (Get-Member -InputObject $_ -MemberType NoteProperty).Count `
-            -eq 2
-#           -and (Get-Member -InputObject $_ -MemberType NoteProperty) `
-#           -eq @('Name', 'StartType')
+        [ValidateScript({
+            ($_ | Get-Member -MemberType NoteProperty).Count -eq 2 `
+            -and $_.Name -is [string] `
+            -and $_.StartType -is [string] `
+            -and $_.StartType -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
         $Service
