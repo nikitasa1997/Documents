@@ -27,9 +27,8 @@ function Get-ServiceAsArray {
     }
 }
 
-#        Read-ArrayFromFile
-#        Read-ArrayFromFileAsJson
 #        Read-ServiceFromFile
+#        Read-ServiceFromJson
 #        Read-ServiceFromJsonFile
 function Read-ArrayFromJson {
     [CmdletBinding()]
@@ -83,15 +82,19 @@ function Set-ServiceFromArray {
         $Service
     )
     process {
+        $CurrentService = Get-ServiceAsArray
+        Compare-Object
+            -ReferenceObject $CurrentService.Name
+            -DifferenceObject $Service.Name
+        $CurrentService
         $Service | Foreach-Object -Process {
             Set-Service -Name $_.Name -StartupType $_.StartType
         }
     }
 }
 
-#        Write-ArrayToFile
-#        Write-ArrayToFileAsJson
 #        Write-ServiceToFile
+#        Write-ServiceToJson
 #        Write-ServiceToJsonFile
 function Write-ArrayToJson {
     [CmdletBinding()]
