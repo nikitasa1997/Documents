@@ -31,7 +31,7 @@
     "Browser":  "Disabled",
     "BTAGService":  "Disabled",
     "BthAvctpSvc":  "Manual",
-    "bthserv":  "Manual",
+    "bthserv":  "Disabled",
     "c2wts":  "Manual",
     "camsvc":  "Manual",
     "CaptureService":  "Manual",
