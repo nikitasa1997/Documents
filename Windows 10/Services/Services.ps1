@@ -89,23 +89,27 @@ function Set-ServiceFromArray {
     process {
         $CurrentService = Get-ServiceAsArray
         [int]$Position = 0
-        foreach ($_ in $Service) {
+        echo ('Count = ' + $Service.Count)
+        foreach ($_ in $CurrentService) {
+            echo ('Position = ' + $Position)
             if (
-                $Position -ge $CurrentService.Count -or
-                $CurrentService[$Position].Name -lt $_.Name
+                $Position -ge $Service.Count -or
+                $Service[$Position].Name -lt $_.Name
             ) {
                 echo 'break'
                 break
-            } elseif ($CurrentService[$Position].Name -gt $_.Name) {
+            } elseif ($Service[$Position].Name -gt $_.Name) {
                 echo 'continue'
                 continue
             }
             elseif (
-                $CurrentService[$Position].Name -eq $_.Name -and
-                $CurrentService[$Position].StartType -ne $_.StartType
+                $Service[$Position].Name -eq $_.Name -and
+                $Service[$Position].StartType -ne $_.StartType
             ) {
                 echo ('Set-Service ' + $_.Name)
-                Set-Service -Name $_.Name -StartupType $_.StartType
+                Set-Service `
+                    -Name $Service[$Position].Name `
+                    -StartupType $Service[$Position].StartType
             }
             ++$Position
         }
@@ -171,6 +175,7 @@ function Write-ArrayToJson {
 }
 
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
-[pscustomobject[]]$Service = Get-ServiceAsArray
-Write-ArrayToJson -Path $Path -Service $Service
+# [pscustomobject[]]$Service = Get-ServiceAsArray
+# Write-ArrayToJson -Path $Path -Service $Service
+[pscustomobject[]]$Service = Read-ArrayFromJson -Path $Path
 Set-ServiceFromArray -Service $Service
