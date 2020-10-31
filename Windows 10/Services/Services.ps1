@@ -86,7 +86,6 @@ function Set-ServiceFromArray {
         Compare-Object
             -ReferenceObject $CurrentService.Name
             -DifferenceObject $Service.Name
-        $CurrentService
         $Service | Foreach-Object -Process {
             Set-Service -Name $_.Name -StartupType $_.StartType
         }
