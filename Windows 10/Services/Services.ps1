@@ -56,8 +56,8 @@ function Read-ArrayFromJson {
     process {
         $Service = Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
-        $Service.psobject.Properties |
-            Foreach-Object -Process {[PSCustomObject]@{
+        $Service.PSObject.Properties |
+            Foreach-Object -Process {[pscustomobject]@{
                 Name = $_.Name
                 StartType = $_.Value
             }}
@@ -78,22 +78,31 @@ function Set-ServiceFromArray {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-            $_.psobject.Properties.Name.Count -eq 2 `
-            -and $_.Name -is [string] `
-            -and $_.StartType -is [string] `
-            -and $_.StartType -in @('Automatic', 'Disabled', 'Manual')
+            $_.PSObject.Properties.Name.Count -eq 2 -and `
+            $_.Name -is [string] -and `
+            $_.StartType -is [string] -and `
+            $_.StartType -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
         $Service
     )
     process {
         $CurrentService = Get-ServiceAsArray
+<#
         Compare-Object `
-            -ReferenceObject $CurrentService.Name `
-            -DifferenceObject $Service.Name
-        $Service | Foreach-Object -Process {
-            Set-Service -Name $_.Name -StartupType $_.StartType
-        }
+            -ReferenceObject $CurrentService[$Position].PSObject.Properties `
+            -DifferenceObject $_.PSObject.Properties
+#>
+        $Service |
+            Foreach-Object -Begin {[int]$Position = 0} -Process {
+                if (
+                    $CurrentService[$Position].Name -eq $_.Name -and
+                    $CurrentService[$Position].StartType -ne $_.StartType
+                ) {
+                    Set-Service -Name $_.Name -StartupType $_.StartType
+                    ++$Position
+                }
+            }
     }
 }
 
@@ -133,10 +142,10 @@ function Write-ArrayToJson {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-            $_.psobject.Properties.Name.Count -eq 2 `
-            -and $_.Name -is [string] `
-            -and $_.StartType -is [string] `
-            -and $_.StartType -in @('Automatic', 'Disabled', 'Manual')
+            $_.PSObject.Properties.Name.Count -eq 2 -and `
+            $_.Name -is [string] -and `
+            $_.StartType -is [string] -and `
+            $_.StartType -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
         $Service
