@@ -54,8 +54,9 @@ function Read-ArrayFromJson {
         $Path
     )
     process {
-        Get-Content -Path $Path -Encoding $Encoding |
-            ConvertFrom-Json # TODO
+        $Service = Get-Content -Path $Path -Encoding $Encoding |
+            ConvertFrom-Json
+        $Service.psobject.properties | Foreach { $ht2[$_.Name] = $_.Value }
     }
 }
 
@@ -73,7 +74,7 @@ function Set-ServiceFromArray {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-            ($_ | Get-Member -MemberType NoteProperty).Count -eq 2 `
+            $_.psobject.Properties.Name.Count -eq 2 `
             -and $_.Name -is [string] `
             -and $_.StartType -is [string] `
             -and $_.StartType -in @('Automatic', 'Disabled', 'Manual')
@@ -128,7 +129,7 @@ function Write-ArrayToJson {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-            ($_ | Get-Member -MemberType NoteProperty).Count -eq 2 `
+            $_.psobject.Properties.Name.Count -eq 2 `
             -and $_.Name -is [string] `
             -and $_.StartType -is [string] `
             -and $_.StartType -in @('Automatic', 'Disabled', 'Manual')
