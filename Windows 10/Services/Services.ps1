@@ -88,19 +88,30 @@ function Set-ServiceFromArray {
     )
     process {
         $CurrentService = Get-ServiceAsArray
-        $Service |
-            Sort-Object -Property Name | # TODO Sort needed?
-            Foreach-Object -Begin {[int]$Position = 0} -Process {
-                if ($CurrentService[$Position].Name -lt $_.Name) {
-                    # TODO throw exception OR BREAK?
-                } elseif ($CurrentService[$Position].Name -gt $_.Name) {
-                    # TODO
-                } elseif ($CurrentService[$Position].StartType -ne $_.StartType) {
-                    Set-Service -Name $_.Name -StartupType $_.StartType
-                    ++$Position
-                }
+        [int]$Position = 0
+        foreach ($_ in $Service) {
+            if (
+                $Position -ge $CurrentService.Count -or
+                $CurrentService[$Position].Name -lt $_.Name
+            ) {
+                echo 'break'
+                break
+            } elseif ($CurrentService[$Position].Name -gt $_.Name) {
+                echo 'continue'
+                continue
             }
-        # TODO if in Service exist less then all in CurrentService
+            elseif (
+                $CurrentService[$Position].Name -eq $_.Name -and
+                $CurrentService[$Position].StartType -ne $_.StartType
+            ) {
+                echo ('Set-Service ' + $_.Name)
+                Set-Service -Name $_.Name -StartupType $_.StartType
+            }
+            ++$Position
+        }
+        if ($Position -lt $CurrentService.Count) {
+            throw 'No such service ' + $CurrentService[$Position].Name
+        }
     }
 }
 
@@ -162,4 +173,4 @@ function Write-ArrayToJson {
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 [pscustomobject[]]$Service = Get-ServiceAsArray
 Write-ArrayToJson -Path $Path -Service $Service
-# Set-ServiceFromArray -Service $Service
+Set-ServiceFromArray -Service $Service
