@@ -88,21 +88,19 @@ function Set-ServiceFromArray {
     )
     process {
         $CurrentService = Get-ServiceAsArray
-<#
-        Compare-Object `
-            -ReferenceObject $CurrentService[$Position].PSObject.Properties `
-            -DifferenceObject $_.PSObject.Properties
-#>
         $Service |
+            Sort-Object -Property Name | # TODO Sort needed?
             Foreach-Object -Begin {[int]$Position = 0} -Process {
-                if (
-                    $CurrentService[$Position].Name -eq $_.Name -and
-                    $CurrentService[$Position].StartType -ne $_.StartType
-                ) {
+                if ($CurrentService[$Position].Name -lt $_.Name) {
+                    # TODO throw exception OR BREAK?
+                } elseif ($CurrentService[$Position].Name -gt $_.Name) {
+                    # TODO
+                } elseif ($CurrentService[$Position].StartType -ne $_.StartType) {
                     Set-Service -Name $_.Name -StartupType $_.StartType
                     ++$Position
                 }
             }
+        # TODO if in Service exist less then all in CurrentService
     }
 }
 
