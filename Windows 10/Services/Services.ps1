@@ -150,4 +150,4 @@ function Write-ArrayToJson {
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 [pscustomobject[]]$Service = Get-ServiceAsArray
 Write-ArrayToJson -Path $Path -Service $Service
-Set-ServiceFromArray -Service $Service
+# Set-ServiceFromArray -Service $Service
