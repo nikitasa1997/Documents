@@ -56,7 +56,11 @@ function Read-ArrayFromJson {
     process {
         $Service = Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
-        $Service.psobject.properties | Foreach { $ht2[$_.Name] = $_.Value }
+        $Service.psobject.Properties |
+            Foreach-Object -Process {[PSCustomObject]@{
+                Name = $_.Name
+                StartType = $_.Value
+            }}
     }
 }
 
