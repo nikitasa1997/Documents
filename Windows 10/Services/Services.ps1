@@ -83,8 +83,8 @@ function Set-ServiceFromArray {
     )
     process {
         $CurrentService = Get-ServiceAsArray
-        Compare-Object
-            -ReferenceObject $CurrentService.Name
+        Compare-Object `
+            -ReferenceObject $CurrentService.Name `
             -DifferenceObject $Service.Name
         $Service | Foreach-Object -Process {
             Set-Service -Name $_.Name -StartupType $_.StartType
@@ -150,4 +150,4 @@ function Write-ArrayToJson {
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
 [pscustomobject[]]$Service = Get-ServiceAsArray
 Write-ArrayToJson -Path $Path -Service $Service
-# Set-ServiceFromArray -Service $Service
+Set-ServiceFromArray -Service $Service
