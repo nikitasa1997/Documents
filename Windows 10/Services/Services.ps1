@@ -88,20 +88,15 @@ function Set-ServiceFromArray {
     process {
         $CurrentService = Get-ServiceAsArray
         [int]$Position = 0
-        echo ('Count = ' + $Service.Count)
         foreach ($_ in $CurrentService) {
-            echo ('Position = ' + $Position)
             if (
                 $Position -ge $Service.Count -or
                 $Service[$Position].Name -lt $_.Name
             ) {
-                echo 'break'
                 break
             } elseif ($Service[$Position].Name -gt $_.Name) {
-                echo 'continue'
                 continue
             } elseif ($Service[$Position].StartType -ne $_.StartType) {
-                echo ('Set-Service ' + $_.Name)
                 Set-Service `
                     -Name $Service[$Position].Name `
                     -StartupType $Service[$Position].StartType
