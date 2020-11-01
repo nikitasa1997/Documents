@@ -101,10 +101,7 @@ function Set-ServiceFromArray {
                 echo 'continue'
                 continue
             }
-            elseif (
-                $Service[$Position].Name -eq $_.Name -and
-                $Service[$Position].StartType -ne $_.StartType
-            ) {
+            elseif ($Service[$Position].StartType -ne $_.StartType) {
                 echo ('Set-Service ' + $_.Name)
                 Set-Service `
                     -Name $Service[$Position].Name `
@@ -112,8 +109,8 @@ function Set-ServiceFromArray {
             }
             ++$Position
         }
-        if ($Position -lt $CurrentService.Count) {
-            throw 'No such service ' + $CurrentService[$Position].Name
+        if ($Position -lt $Service.Count) {
+            throw "No such service: $($Service[$Position].Name)"
         }
     }
 }
@@ -170,7 +167,7 @@ function Write-ArrayToJsonFile {
 }
 
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
-[pscustomobject[]]$Service = Get-ServiceAsArray
-Write-ArrayToJson -Path $Path -Service $Service
-# [pscustomobject[]]$Service = Read-ArrayFromJson -Path $Path
-# Set-ServiceFromArray -Service $Service
+# [pscustomobject[]]$Service = Get-ServiceAsArray
+# Write-ArrayToJsonFile -Path $Path -Service $Service
+[pscustomobject[]]$Service = Read-ArrayFromJsonFile -Path $Path
+Set-ServiceFromArray -Service $Service
