@@ -76,8 +76,7 @@ function Set-ServiceFromArray {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({
-            $_.PSObject.Properties.Name.Count -eq 2 -and `
+        [ValidateScript({$_.PSObject.Properties.Name.Count -eq 2 -and `
             $_.Name -is [string] -and `
             $_.StartType -is [string] -and `
             $_.StartType -in @('Automatic', 'Disabled', 'Manual')
@@ -106,6 +105,20 @@ function Set-ServiceFromArray {
         if ($Position -lt $Service.Count) {
             throw "No such service: $($Service[$Position].Name)"
         }
+    }
+}
+
+function Stop-DisabledService {
+    [CmdletBinding()]
+    [OutputType()]
+    param()
+    process {
+        Get-Service |
+            Where-Object -FilterScript {
+                $_.StartType -eq 'Disabled' -and `
+                $_.Status -in @('Paused', 'Running')
+            } | Stop-Service -Force
+        # -Force ?
     }
 }
 
@@ -141,8 +154,7 @@ function Write-ArrayToJsonFile {
         )]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({
-            $_.PSObject.Properties.Name.Count -eq 2 -and `
+        [ValidateScript({$_.PSObject.Properties.Name.Count -eq 2 -and `
             $_.Name -is [string] -and `
             $_.StartType -is [string] -and `
             $_.StartType -in @('Automatic', 'Disabled', 'Manual')
@@ -168,3 +180,4 @@ function Write-ArrayToJsonFile {
 # Write-ArrayToJsonFile -Path $Path -Service $Service
 [pscustomobject[]]$Service = Read-ArrayFromJsonFile -Path $Path
 Set-ServiceFromArray -Service $Service
+Stop-DisabledService

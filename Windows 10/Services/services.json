@@ -162,7 +162,7 @@
     "NaturalAuthentication":  "Manual",
     "NcaSvc":  "Disabled",
     "NcbService":  "Manual",
-    "NcdAutoSetup":  "Manual",
+    "NcdAutoSetup":  "Disabled",
     "Netlogon":  "Disabled",
     "Netman":  "Manual",
     "NetMsmqActivator":  "Disabled",
