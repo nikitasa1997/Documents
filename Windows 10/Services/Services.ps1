@@ -20,17 +20,15 @@ function Get-ServiceAsArray {
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        return $Service + (Get-Service -Name @($Service96.Keys)) |
+        $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'StartType'; Expression = {
                 [string]$_.StartType
-            }}
+            }} |
+            Sort-Object -Property Name
     }
 }
 
-#        Read-ServiceFromFile
-#        Read-ServiceFromJson
-#        Read-ServiceFromJsonFile
-function Read-ArrayFromJson {
+function Read-ArrayFromJsonFile {
     [CmdletBinding()]
     [OutputType([pscustomobject[]])]
     param(
@@ -60,7 +58,8 @@ function Read-ArrayFromJson {
             Foreach-Object -Process {[pscustomobject]@{
                 Name = $_.Name
                 StartType = $_.Value
-            }}
+            }} |
+            Sort-Object -Property Name
     }
 }
 
@@ -119,10 +118,7 @@ function Set-ServiceFromArray {
     }
 }
 
-#        Write-ServiceToFile
-#        Write-ServiceToJson
-#        Write-ServiceToJsonFile
-function Write-ArrayToJson {
+function Write-ArrayToJsonFile {
     [CmdletBinding()]
     [OutputType()]
     param(
@@ -165,7 +161,6 @@ function Write-ArrayToJson {
     )
     process {
         $Service |
-            Sort-Object -Property Name |
             Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
                 $Ordered.Add($_.Name, $_.StartType)
             } -End {$Ordered} |
@@ -175,7 +170,7 @@ function Write-ArrayToJson {
 }
 
 [string]$Path = '\Users\nikit\Downloads\Documents\Windows 10\Services\services.json'
-# [pscustomobject[]]$Service = Get-ServiceAsArray
-# Write-ArrayToJson -Path $Path -Service $Service
-[pscustomobject[]]$Service = Read-ArrayFromJson -Path $Path
-Set-ServiceFromArray -Service $Service
+[pscustomobject[]]$Service = Get-ServiceAsArray
+Write-ArrayToJson -Path $Path -Service $Service
+# [pscustomobject[]]$Service = Read-ArrayFromJson -Path $Path
+# Set-ServiceFromArray -Service $Service
