@@ -100,8 +100,7 @@ function Set-ServiceFromArray {
             } elseif ($Service[$Position].Name -gt $_.Name) {
                 echo 'continue'
                 continue
-            }
-            elseif ($Service[$Position].StartType -ne $_.StartType) {
+            } elseif ($Service[$Position].StartType -ne $_.StartType) {
                 echo ('Set-Service ' + $_.Name)
                 Set-Service `
                     -Name $Service[$Position].Name `
