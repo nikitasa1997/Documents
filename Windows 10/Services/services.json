@@ -350,6 +350,6 @@
     "XboxNetApiSvc":  "Disabled",
     "xTendSoftAPService":  "Disabled",
     "xTendUtilityService":  "Disabled",
-    "XTU3SERVICE":  "Automatic",
+    "XTU3SERVICE":  "Disabled",
     "ZeroConfigService":  "Automatic"
 }
