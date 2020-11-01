@@ -160,7 +160,10 @@ function Write-ArrayToJsonFile {
     }
 }
 
-[string]$Path = Join-Path -Path $PSScriptRoot -ChildPath 'services.json'
+[string]$Path = Join-Path `
+    -Path $PSScriptRoot `
+    -ChildPath 'services.json' `
+    -Resolve
 # [pscustomobject[]]$Service = Get-ServiceAsArray
 # Write-ArrayToJsonFile -Path $Path -Service $Service
 [pscustomobject[]]$Service = Read-ArrayFromJsonFile -Path $Path
