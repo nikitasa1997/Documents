@@ -117,7 +117,7 @@ function Stop-DisabledService {
         Get-Service |
             Where-Object -FilterScript {
                 $_.StartType -eq 'Disabled' -and `
-                $_.Status -in @('Paused', 'Running')
+                $_.Status -in @('Paused', 'Running') # Pending ?
             } | Stop-Service -Force
         # -Force ?
     }
