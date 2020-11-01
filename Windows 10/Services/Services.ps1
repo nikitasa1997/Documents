@@ -20,7 +20,7 @@ function Get-ServiceAsArray {
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        return $Service + (Get-Service -Name @($Service96.Keys)) |
+        $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'StartType'; Expression = {
                 [string]$_.StartType
             }} |
@@ -54,7 +54,7 @@ function Read-ArrayFromJsonFile {
     process {
         $Service = Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
-        return $Service.PSObject.Properties |
+        $Service.PSObject.Properties |
             Foreach-Object -Process {[pscustomobject]@{
                 Name = $_.Name
                 StartType = $_.Value
