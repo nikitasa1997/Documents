@@ -346,7 +346,7 @@
     "WwanSvc":  "Manual",
     "XblAuthManager":  "Disabled",
     "XblGameSave":  "Disabled",
-    "XboxGipSvc":  "Manual",
+    "XboxGipSvc":  "Disabled",
     "XboxNetApiSvc":  "Disabled",
     "xTendSoftAPService":  "Disabled",
     "xTendUtilityService":  "Disabled",
