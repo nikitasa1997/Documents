@@ -20,7 +20,7 @@ function Get-ServiceAsArray {
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
-        $Service + (Get-Service -Name @($Service96.Keys)) | # TODO
+        $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'StartType'; Expression = {
                 [string]$_.StartType
             }} |
