@@ -17,7 +17,7 @@
     "avast! Antivirus":  "Automatic",
     "avast! Tools":  "Disabled",
     "avastm":  "Manual",
-    "AvastSecureBrowserElevationService":  "Manual",
+    "AvastSecureBrowserElevationService":  "Disabled",
     "AvastWscReporter":  "Automatic",
     "AxInstSV":  "Manual",
     "BcastDVRUserService":  "Disabled",
