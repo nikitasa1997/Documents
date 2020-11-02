@@ -117,8 +117,8 @@ function Stop-DisabledService {
         Get-Service |
             Where-Object -FilterScript {
                 $_.StartType -eq 'Disabled' -and $_.Status -ne 'Stopped'
-            } | Stop-Service -Force
-        # -Force ?
+            } |
+            Stop-Service -Force
     }
 }
 
