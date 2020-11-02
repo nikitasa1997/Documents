@@ -228,7 +228,7 @@
     "seclogon":  "Manual",
     "SecureLine":  "Disabled",
     "SecurityHealthService":  "Manual",
-    "SEMgrSvc":  "Manual",
+    "SEMgrSvc":  "Disabled",
     "SENS":  "Automatic",
     "SensorDataService":  "Disabled",
     "SensorService":  "Disabled",
