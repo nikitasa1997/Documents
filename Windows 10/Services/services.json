@@ -185,7 +185,7 @@
     "OpenVPNService":  "Disabled",
     "OpenVPNServiceInteractive":  "Disabled",
     "OpenVPNServiceLegacy":  "Disabled",
-    "ose64":  "Manual",
+    "ose64":  "Disabled",
     "p2pimsvc":  "Disabled",
     "p2psvc":  "Disabled",
     "PcaSvc":  "Disabled",
