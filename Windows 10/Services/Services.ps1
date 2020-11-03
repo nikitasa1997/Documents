@@ -19,9 +19,9 @@ function Get-ServiceAsArray {
                     $Service96.Add(($_.Name -replace $Pattern, '$1'), $null)
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
-            }}, StartType
+            }}
         $Service + (Get-Service -Name @($Service96.Keys)) |
-            Select-Object -Property Name, @{Name = 'StartType'; Expression = {
+            Select-Object -Property Name, @{Name = 'Value'; Expression = {
                 [string]$_.StartType
             }} |
             Sort-Object -Property Name
@@ -52,12 +52,12 @@ function Read-ArrayFromJsonFile {
         $Path
     )
     process {
-        $Service = Get-Content -Path $Path -Encoding $Encoding |
+        $Array = Get-Content -Path $Path -Encoding $Encoding |
             ConvertFrom-Json
-        $Service.PSObject.Properties |
+        $Array.PSObject.Properties |
             Foreach-Object -Process {[pscustomobject]@{
                 Name = $_.Name
-                StartType = $_.Value
+                Value = $_.Value
             }} |
             Sort-Object -Property Name
     }
@@ -79,8 +79,8 @@ function Set-ServiceFromArray {
         [ValidateScript({
             $_.PSObject.Properties.Name.Count -eq 2 -and `
             $_.Name -is [string] -and `
-            $_.StartType -is [string] -and `
-            $_.StartType -in @('Automatic', 'Disabled', 'Manual')
+            $_.Value -is [string] -and `
+            $_.Value -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
         $Service
@@ -96,10 +96,10 @@ function Set-ServiceFromArray {
                 break
             } elseif ($Service[$Position].Name -gt $_.Name) {
                 continue
-            } elseif ($Service[$Position].StartType -ne $_.StartType) {
+            } elseif ($Service[$Position].Value -ne $_.Value) {
                 Set-Service `
                     -Name $Service[$Position].Name `
-                    -StartupType $Service[$Position].StartType
+                    -StartupType $Service[$Position].Value
             }
             ++$Position
         }
@@ -157,16 +157,16 @@ function Write-ArrayToJsonFile {
         [ValidateScript({
             $_.PSObject.Properties.Name.Count -eq 2 -and `
             $_.Name -is [string] -and `
-            $_.StartType -is [string] -and `
-            $_.StartType -in @('Automatic', 'Disabled', 'Manual')
+            $_.Value -is [string] -and `
+            $_.Value -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
-        $Service
+        $Array
     )
     process {
-        $Service |
+        $Array |
             Foreach-Object -Begin {$Ordered = [ordered]@{}} -Process {
-                $Ordered.Add($_.Name, $_.StartType)
+                $Ordered.Add($_.Name, $_.Value)
             } -End {$Ordered} |
             ConvertTo-Json -Depth 1 |
             Set-Content -Path $Path -Encoding $Encoding
