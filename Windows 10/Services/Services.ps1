@@ -19,7 +19,7 @@ function Get-ServiceAsArray {
                     $Service96.Add(($_.Name -replace $Pattern, '$1'), $null)
                     $_.Name -replace $Pattern, "`$1_$DefaultLUID"
                 } else {$_.Name}
-            }}
+            }}, StartType
         $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'Value'; Expression = {
                 [string]$_.StartType
@@ -178,7 +178,7 @@ function Write-ArrayToJsonFile {
     -ChildPath 'services.json' `
     -Resolve
 # [pscustomobject[]]$Service = Get-ServiceAsArray
-# Write-ArrayToJsonFile -Path $Path -Service $Service
+# Write-ArrayToJsonFile -Path $Path -Array $Service
 [pscustomobject[]]$Service = Read-ArrayFromJsonFile -Path $Path
 Set-ServiceFromArray -Service $Service
 Stop-DisabledService
