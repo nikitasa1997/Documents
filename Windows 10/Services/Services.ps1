@@ -91,13 +91,13 @@ function Set-ServiceFromArray {
     process {
         [int]$Position = 0
         foreach ($_ in Get-ServiceAsArray) {
-            if ($_.Name -lt $Service[$Position].Name) {
-                continue
-            } elseif (
+            if (
                 $Position -ge $Service.Count -or
                 $_.Name -gt $Service[$Position].Name
             ) {
                 break
+            } elseif ($_.Name -lt $Service[$Position].Name) {
+                continue
             } elseif ($_.Value -ne $Service[$Position].Value) {
                 Set-Service -Name (
                     Get-Service ($_.Name -replace $Pattern, '$1_*')
