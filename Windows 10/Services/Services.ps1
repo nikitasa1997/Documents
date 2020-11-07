@@ -1,6 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+[string]$DefaultLUID = '00000000'
 [string]$Encoding = 'UTF8'
 
 function Get-ServiceAsArray {
@@ -8,7 +9,6 @@ function Get-ServiceAsArray {
     [OutputType([pscustomobject[]])]
     param()
     begin {
-        [string]$DefaultLUID = '00000000'
         [string]$Pattern = '^(.+)_[0-9a-f]{4,8}$'
     }
     process {
@@ -85,21 +85,23 @@ function Set-ServiceFromArray {
         [pscustomobject[]]
         $Service
     )
+    begin {
+        [string]$Pattern = "^(.+)_$DefaultLUID`$"
+    }
     process {
-        $CurrentService = Get-ServiceAsArray
         [int]$Position = 0
-        foreach ($_ in $CurrentService) {
+        foreach ($_ in Get-ServiceAsArray) {
             if (
                 $Position -ge $Service.Count -or
-                $Service[$Position].Name -lt $_.Name
+                $_.Name -gt $Service[$Position].Name
             ) {
                 break
-            } elseif ($Service[$Position].Name -gt $_.Name) {
+            } elseif ($_.Name -lt $Service[$Position].Name) {
                 continue
-            } elseif ($Service[$Position].Value -ne $_.Value) {
-                Set-Service `
-                    -Name $Service[$Position].Name `
-                    -StartupType $Service[$Position].Value
+            } elseif ($_.Value -ne $Service[$Position].Value) {
+                Set-Service -Name (
+                    Get-Service ($_.Name -replace $Pattern, '$1_*')
+                ).Name -StartupType $Service[$Position].Value
             }
             ++$Position
         }
