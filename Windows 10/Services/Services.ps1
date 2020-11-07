@@ -77,9 +77,9 @@ function Set-ServiceFromArray {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-            $_.PSObject.Properties.Name.Count -eq 2 -and `
-            $_.Name -is [string] -and `
-            $_.Value -is [string] -and `
+            $_.PSObject.Properties.Name.Count -eq 2 -and
+            $_.Name -is [string] -and
+            $_.Value -is [string] -and
             $_.Value -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
@@ -157,9 +157,9 @@ function Write-ArrayToJsonFile {
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [ValidateScript({
-            $_.PSObject.Properties.Name.Count -eq 2 -and `
-            $_.Name -is [string] -and `
-            $_.Value -is [string] -and `
+            $_.PSObject.Properties.Name.Count -eq 2 -and
+            $_.Name -is [string] -and
+            $_.Value -is [string] -and
             $_.Value -in @('Automatic', 'Disabled', 'Manual')
         })]
         [pscustomobject[]]
