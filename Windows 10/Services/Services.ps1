@@ -90,7 +90,7 @@ function Set-ServiceFromArray {
     }
     process {
         [int]$Position = 0
-        foreach ($_ in Get-ServiceAsArray)
+        foreach ($_ in Get-ServiceAsArray) {
             if ($_.Name -lt $Service[$Position].Name) {
                 continue
             } elseif (
