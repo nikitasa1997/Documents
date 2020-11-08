@@ -16,8 +16,10 @@ function Get-ServiceAsArray {
         [pscustomobject[]]$Service = Get-Service |
             Select-Object -Property @{Name = 'Name'; Expression = {
                 if ($_.ServiceType -in @(224, 240)) {
-                    $Service96.Add(($_.Name -replace $Pattern, '$1'), $null)
-                    $_.Name -replace $Pattern, "`$1_$DefaultLUID"
+                    $_.Name -match $Pattern -as [void]
+                    # [void]($_.Name -match $Pattern)
+                    $Service96.Add($Matches[1], $null)
+                    "$($Matches[1])_$DefaultLUID"
                 } else {$_.Name}
             }}, StartType
         $Service + (Get-Service -Name @($Service96.Keys)) |
@@ -99,9 +101,9 @@ function Set-ServiceFromArray {
             } elseif ($_.Name -lt $Service[$Position].Name) {
                 continue
             } elseif ($_.Value -ne $Service[$Position].Value) {
-                Set-Service -Name (
-                    Get-Service ($_.Name -replace $Pattern, '$1_*')
-                ).Name -StartupType $Service[$Position].Value
+                Set-Service -Name $(if ($_.Name -match $Pattern) {
+                    Get-Service -Name "$($Matches[1])_*"
+                } else {$_}).Name -StartupType $Service[$Position].Value
             }
             ++$Position
         }
