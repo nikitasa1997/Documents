@@ -16,8 +16,9 @@ function Get-ServiceAsArray {
         [pscustomobject[]]$Service = Get-Service |
             Select-Object -Property @{Name = 'Name'; Expression = {
                 if ($_.ServiceType -in @(224, 240)) {
-                    $_.Name -match $Pattern -as [void]
-                    # [void]($_.Name -match $Pattern)
+                    if (-not ($_.Name -match $Pattern)) {
+                        throw "'$($_.Name)' does not match '$Pattern'"
+                    }
                     $Service96.Add($Matches[1], $null)
                     "$($Matches[1])_$DefaultLUID"
                 } else {$_.Name}
