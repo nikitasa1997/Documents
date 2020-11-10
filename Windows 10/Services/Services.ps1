@@ -13,16 +13,19 @@ function Get-ServiceAsArray {
     }
     process {
         [hashtable]$Service96 = @{}
-        [pscustomobject[]]$Service = Get-Service |
-            Select-Object -Property @{Name = 'Name'; Expression = {
-                if ($_.ServiceType -in @(224, 240)) {
-                    if (-not ($_.Name -match $Pattern)) {
-                        throw "'$($_.Name)' does not match '$Pattern'"
-                    }
-                    $Service96.Add($Matches[1], $null)
-                    "$($Matches[1])_$DefaultLUID"
-                } else {$_.Name}
-            }}, StartType
+        [pscustomobject[]]$Service = foreach ($_ in Get-Service) {
+            [pscustomobject]@{Name = if ($_.ServiceType -in @(224, 240)) {
+                if (-not ($_.Name -match $Pattern)) {
+                    throw '{0} : "{1}" does not match to "{2}".' -f @(
+                        $MyInvocation.MyCommand,
+                        $_.Name,
+                        $Pattern
+                    )
+                }
+                $Service96.Add($Matches[1], $null)
+                "$($Matches[1])_$DefaultLUID"
+            } else {$_.Name}; StartType = $_.StartType}
+        }
         $Service + (Get-Service -Name @($Service96.Keys)) |
             Select-Object -Property Name, @{Name = 'Value'; Expression = {
                 [string]$_.StartType
@@ -109,7 +112,10 @@ function Set-ServiceFromArray {
             ++$Position
         }
         if ($Position -lt $Service.Count) {
-            throw "No such service: $($Service[$Position].Name)"
+            throw '{0} : Cannot find any service with service name "{1}".' -f @(
+                $MyInvocation.MyCommand,
+                $Service[$Position].Name
+            )
         }
     }
 }
