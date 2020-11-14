@@ -237,7 +237,7 @@
     "SgrmBroker":  "Automatic",
     "SharedAccess":  "Disabled",
     "SharedRealitySvc":  "Disabled",
-    "ShellHWDetection":  "Automatic",
+    "ShellHWDetection":  "Disabled",
     "shpamsvc":  "Disabled",
     "simptcp":  "Disabled",
     "SmartByte Network Service x64":  "Disabled",
