@@ -268,7 +268,7 @@
     "TermService":  "Disabled",
     "Themes":  "Automatic",
     "ThunderboltService":  "Disabled",
-    "TieringEngineService":  "Manual",
+    "TieringEngineService":  "Disabled",
     "TimeBrokerSvc":  "Manual",
     "TokenBroker":  "Manual",
     "TrkWks":  "Manual",
