@@ -290,7 +290,7 @@
     "vds":  "Manual",
     "vmcompute":  "Manual",
     "vmicguestinterface":  "Disabled",
-    "vmicheartbeat":  "Manual",
+    "vmicheartbeat":  "Disabled",
     "vmickvpexchange":  "Disabled",
     "vmicrdv":  "Disabled",
     "vmicshutdown":  "Manual",
