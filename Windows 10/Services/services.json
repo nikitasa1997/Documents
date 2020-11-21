@@ -94,7 +94,7 @@
     "ESRV_SVC_QUEENCREEK":  "Automatic",
     "EventLog":  "Automatic",
     "EventSystem":  "Automatic",
-    "EvtEng":  "Automatic",
+    "EvtEng":  "Disabled",
     "Fax":  "Disabled",
     "fdPHost":  "Disabled",
     "FDResPub":  "Manual",
@@ -208,7 +208,7 @@
     "QWAVE":  "Disabled",
     "RasAuto":  "Disabled",
     "RasMan":  "Disabled",
-    "RegSrvc":  "Automatic",
+    "RegSrvc":  "Disabled",
     "RemoteAccess":  "Disabled",
     "RemoteRegistry":  "Disabled",
     "RetailDemo":  "Disabled",
@@ -351,5 +351,5 @@
     "xTendSoftAPService":  "Disabled",
     "xTendUtilityService":  "Disabled",
     "XTU3SERVICE":  "Disabled",
-    "ZeroConfigService":  "Automatic"
+    "ZeroConfigService":  "Disabled"
 }
