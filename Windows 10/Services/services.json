@@ -213,7 +213,7 @@
     "RemoteRegistry":  "Disabled",
     "RetailDemo":  "Disabled",
     "RmSvc":  "Disabled",
-    "RNDBWM":  "Automatic",
+    "RNDBWM":  "Disabled",
     "RpcEptMapper":  "Automatic",
     "RpcLocator":  "Manual",
     "RpcSs":  "Automatic",
