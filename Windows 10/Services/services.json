@@ -266,7 +266,7 @@
     "TabletInputService":  "Disabled",
     "TapiSrv":  "Disabled",
     "TermService":  "Disabled",
-    "Themes":  "Automatic",
+    "Themes":  "Disabled",
     "ThunderboltService":  "Disabled",
     "TieringEngineService":  "Disabled",
     "TimeBrokerSvc":  "Manual",
