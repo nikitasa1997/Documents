@@ -271,7 +271,7 @@
     "TieringEngineService":  "Disabled",
     "TimeBrokerSvc":  "Manual",
     "TokenBroker":  "Manual",
-    "TrkWks":  "Manual",
+    "TrkWks":  "Disabled",
     "TrustedInstaller":  "Manual",
     "tzautoupdate":  "Disabled",
     "uhssvc":  "Disabled",
