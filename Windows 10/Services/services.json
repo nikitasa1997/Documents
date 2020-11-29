@@ -196,7 +196,7 @@
     "PimIndexMaintenanceSvc_00000000":  "Disabled",
     "pla":  "Manual",
     "PlugPlay":  "Manual",
-    "PNRPAutoReg":  "Manual",
+    "PNRPAutoReg":  "Disabled",
     "PNRPsvc":  "Disabled",
     "PolicyAgent":  "Disabled",
     "Power":  "Automatic",
