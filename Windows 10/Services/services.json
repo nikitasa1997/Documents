@@ -22,7 +22,7 @@
     "AxInstSV":  "Manual",
     "BcastDVRUserService":  "Disabled",
     "BcastDVRUserService_00000000":  "Disabled",
-    "BDESVC":  "Manual",
+    "BDESVC":  "Disabled",
     "BFE":  "Automatic",
     "BITS":  "Manual",
     "BluetoothUserService":  "Disabled",
