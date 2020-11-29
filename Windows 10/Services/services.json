@@ -200,7 +200,7 @@
     "PNRPsvc":  "Disabled",
     "PolicyAgent":  "Disabled",
     "Power":  "Automatic",
-    "PrintNotify":  "Manual",
+    "PrintNotify":  "Disabled",
     "PrintWorkflowUserSvc":  "Disabled",
     "PrintWorkflowUserSvc_00000000":  "Disabled",
     "ProfSvc":  "Automatic",
