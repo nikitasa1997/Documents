@@ -158,7 +158,7 @@
     "MSMQ":  "Automatic",
     "MSMQTriggers":  "Disabled",
     "MySQL80":  "Disabled",
-    "MyWiFiDHCPDNS":  "Manual",
+    "MyWiFiDHCPDNS":  "Disabled",
     "NaturalAuthentication":  "Manual",
     "NcaSvc":  "Disabled",
     "NcbService":  "Manual",
