@@ -243,7 +243,7 @@
     "SmartByte Network Service x64":  "Disabled",
     "smphost":  "Manual",
     "SmsRouter":  "Disabled",
-    "SNMP":  "Automatic",
+    "SNMP":  "Disabled",
     "SNMPTRAP":  "Disabled",
     "spectrum":  "Disabled",
     "Spooler":  "Disabled",
