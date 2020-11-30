@@ -152,7 +152,7 @@
     "MessagingService_00000000":  "Manual",
     "mpssvc":  "Automatic",
     "MSDTC":  "Manual",
-    "MSiSCSI":  "Manual",
+    "MSiSCSI":  "Disabled",
     "msiserver":  "Manual",
     "MsMpiLaunchSvc":  "Disabled",
     "MSMQ":  "Automatic",
