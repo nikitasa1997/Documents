@@ -97,7 +97,7 @@
     "EvtEng":  "Disabled",
     "Fax":  "Disabled",
     "fdPHost":  "Disabled",
-    "FDResPub":  "Manual",
+    "FDResPub":  "Disabled",
     "fhsvc":  "Disabled",
     "FontCache":  "Disabled",
     "FontCache3.0.0.0":  "Disabled",
