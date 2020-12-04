@@ -7,7 +7,7 @@
     "AppHostSvc":  "Automatic",
     "AppIDSvc":  "Manual",
     "Appinfo":  "Manual",
-    "AppReadiness":  "Manual",
+    "AppReadiness":  "Disabled",
     "AppXSvc":  "Manual",
     "aspnet_state":  "Disabled",
     "aswbIDSAgent":  "Manual",
