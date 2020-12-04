@@ -109,7 +109,7 @@
     "gupdate":  "Disabled",
     "gupdatem":  "Disabled",
     "hidserv":  "Disabled",
-    "hns":  "Manual",
+    "hns":  "Disabled",
     "HvHost":  "Disabled",
     "iaStorAfsService":  "Disabled",
     "IAStorDataMgrSvc":  "Disabled",
