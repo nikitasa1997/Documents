@@ -217,7 +217,7 @@
     "RpcEptMapper":  "Automatic",
     "RpcLocator":  "Manual",
     "RpcSs":  "Automatic",
-    "RstMwService":  "Automatic",
+    "RstMwService":  "Disabled",
     "RtkAudioUniversalService":  "Automatic",
     "SamSs":  "Automatic",
     "SCardSvr":  "Disabled",
