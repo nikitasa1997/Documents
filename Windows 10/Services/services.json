@@ -4,7 +4,7 @@
     "AESMService":  "Disabled",
     "AJRouter":  "Disabled",
     "ALG":  "Disabled",
-    "AppHostSvc":  "Automatic",
+    "AppHostSvc":  "Disabled",
     "AppIDSvc":  "Manual",
     "Appinfo":  "Manual",
     "AppReadiness":  "Disabled",
