@@ -175,7 +175,7 @@
     "NgcSvc":  "Manual",
     "NlaSvc":  "Automatic",
     "nsi":  "Automatic",
-    "nvagent":  "Manual",
+    "nvagent":  "Disabled",
     "NvContainerLocalSystem":  "Disabled",
     "NvContainerNetworkService":  "Disabled",
     "NVDisplay.ContainerLocalSystem":  "Disabled",
