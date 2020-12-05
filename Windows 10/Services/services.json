@@ -300,7 +300,7 @@
     "VSS":  "Manual",
     "VSStandardCollectorService150":  "Disabled",
     "W32Time":  "Manual",
-    "w3logsvc":  "Manual",
+    "w3logsvc":  "Disabled",
     "W3SVC":  "Disabled",
     "WaaSMedicSvc":  "Manual",
     "WalletService":  "Disabled",
