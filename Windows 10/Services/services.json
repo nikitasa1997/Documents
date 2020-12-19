@@ -336,7 +336,7 @@
     "WMSVC":  "Manual",
     "workfolderssvc":  "Disabled",
     "WpcMonSvc":  "Manual",
-    "WPDBusEnum":  "Manual",
+    "WPDBusEnum":  "Disabled",
     "WpnService":  "Automatic",
     "WpnUserService":  "Automatic",
     "WpnUserService_00000000":  "Automatic",
