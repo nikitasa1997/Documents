@@ -253,7 +253,7 @@
     "ssh-agent":  "Disabled",
     "sshd":  "Disabled",
     "SshdBroker":  "Disabled",
-    "SstpSvc":  "Manual",
+    "SstpSvc":  "Disabled",
     "StateRepository":  "Manual",
     "stisvc":  "Disabled",
     "StorSvc":  "Manual",
