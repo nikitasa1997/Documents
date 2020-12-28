@@ -32,7 +32,7 @@
     "BTAGService":  "Disabled",
     "BthAvctpSvc":  "Disabled",
     "bthserv":  "Disabled",
-    "c2wts":  "Manual",
+    "c2wts":  "Disabled",
     "camsvc":  "Manual",
     "CaptureService":  "Manual",
     "CaptureService_00000000":  "Manual",
