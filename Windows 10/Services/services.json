@@ -91,7 +91,7 @@
     "embeddedmode":  "Manual",
     "EntAppSvc":  "Disabled",
     "esifsvc":  "Automatic",
-    "ESRV_SVC_QUEENCREEK":  "Automatic",
+    "ESRV_SVC_QUEENCREEK":  "Disabled",
     "EventLog":  "Automatic",
     "EventSystem":  "Automatic",
     "EvtEng":  "Disabled",
