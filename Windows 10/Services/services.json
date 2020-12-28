@@ -146,7 +146,7 @@
     "LPDSVC":  "Disabled",
     "LSM":  "Automatic",
     "LxpSvc":  "Manual",
-    "LxssManager":  "Manual",
+    "LxssManager":  "Disabled",
     "MapsBroker":  "Disabled",
     "MessagingService":  "Disabled",
     "MessagingService_00000000":  "Disabled",
