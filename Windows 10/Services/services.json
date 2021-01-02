@@ -221,7 +221,7 @@
     "RtkAudioUniversalService":  "Automatic",
     "SamSs":  "Automatic",
     "SCardSvr":  "Disabled",
-    "ScDeviceEnum":  "Manual",
+    "ScDeviceEnum":  "Disabled",
     "Schedule":  "Automatic",
     "SCPolicySvc":  "Disabled",
     "SDRSVC":  "Manual",
