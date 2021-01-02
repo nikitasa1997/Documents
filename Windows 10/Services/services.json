@@ -333,7 +333,7 @@
     "WManSvc":  "Manual",
     "wmiApSrv":  "Disabled",
     "WMPNetworkSvc":  "Disabled",
-    "WMSVC":  "Manual",
+    "WMSVC":  "Disabled",
     "workfolderssvc":  "Disabled",
     "WpcMonSvc":  "Manual",
     "WPDBusEnum":  "Disabled",
