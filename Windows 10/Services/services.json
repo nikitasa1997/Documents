@@ -19,7 +19,7 @@
     "avastm":  "Manual",
     "AvastSecureBrowserElevationService":  "Disabled",
     "AvastWscReporter":  "Automatic",
-    "AxInstSV":  "Manual",
+    "AxInstSV":  "Disabled",
     "BcastDVRUserService":  "Disabled",
     "BcastDVRUserService_00000000":  "Disabled",
     "BDESVC":  "Disabled",
