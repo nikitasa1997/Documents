@@ -215,7 +215,7 @@
     "RmSvc":  "Disabled",
     "RNDBWM":  "Disabled",
     "RpcEptMapper":  "Automatic",
-    "RpcLocator":  "Manual",
+    "RpcLocator":  "Disabled",
     "RpcSs":  "Automatic",
     "RstMwService":  "Disabled",
     "RtkAudioUniversalService":  "Automatic",
