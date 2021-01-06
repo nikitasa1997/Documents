@@ -170,7 +170,7 @@
     "netprofm":  "Manual",
     "NetSetupSvc":  "Manual",
     "NetTcpActivator":  "Disabled",
-    "NetTcpPortSharing":  "Manual",
+    "NetTcpPortSharing":  "Disabled",
     "NgcCtnrSvc":  "Manual",
     "NgcSvc":  "Manual",
     "NlaSvc":  "Automatic",
