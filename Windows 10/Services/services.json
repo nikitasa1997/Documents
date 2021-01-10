@@ -330,7 +330,7 @@
     "WlanSvc":  "Automatic",
     "wlidsvc":  "Manual",
     "wlpasvc":  "Manual",
-    "WManSvc":  "Manual",
+    "WManSvc":  "Disabled",
     "wmiApSrv":  "Disabled",
     "WMPNetworkSvc":  "Disabled",
     "WMSVC":  "Disabled",
