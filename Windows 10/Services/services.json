@@ -306,7 +306,7 @@
     "WalletService":  "Disabled",
     "WarpJITSvc":  "Disabled",
     "WAS":  "Manual",
-    "WavesSysSvc":  "Automatic",
+    "WavesSysSvc":  "Disabled",
     "wbengine":  "Manual",
     "WbioSrvc":  "Disabled",
     "Wcmsvc":  "Automatic",
