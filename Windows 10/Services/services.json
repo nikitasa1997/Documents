@@ -329,7 +329,7 @@
     "wisvc":  "Disabled",
     "WlanSvc":  "Automatic",
     "wlidsvc":  "Manual",
-    "wlpasvc":  "Manual",
+    "wlpasvc":  "Disabled",
     "WManSvc":  "Disabled",
     "wmiApSrv":  "Disabled",
     "WMPNetworkSvc":  "Disabled",
