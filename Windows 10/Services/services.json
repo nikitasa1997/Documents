@@ -284,7 +284,7 @@
     "UserDataSvc_00000000":  "Manual",
     "UserManager":  "Automatic",
     "UsoSvc":  "Automatic",
-    "VacSvc":  "Manual",
+    "VacSvc":  "Disabled",
     "VaultSvc":  "Manual",
     "VBoxSDS":  "Disabled",
     "vds":  "Manual",
