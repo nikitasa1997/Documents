@@ -101,7 +101,7 @@
     "fhsvc":  "Disabled",
     "FontCache":  "Disabled",
     "FontCache3.0.0.0":  "Disabled",
-    "FrameServer":  "Manual",
+    "FrameServer":  "Disabled",
     "ftpsvc":  "Disabled",
     "GoogleChromeElevationService":  "Disabled",
     "gpsvc":  "Automatic",
