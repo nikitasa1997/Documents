@@ -194,7 +194,7 @@
     "PhoneSvc":  "Disabled",
     "PimIndexMaintenanceSvc":  "Disabled",
     "PimIndexMaintenanceSvc_00000000":  "Disabled",
-    "pla":  "Manual",
+    "pla":  "Disabled",
     "PlugPlay":  "Manual",
     "PNRPAutoReg":  "Disabled",
     "PNRPsvc":  "Disabled",
