@@ -77,7 +77,7 @@
     "Disc Soft Lite Bus Service":  "Disabled",
     "DisplayEnhancementService":  "Disabled",
     "DmEnrollmentSvc":  "Manual",
-    "dmwappushservice":  "Manual",
+    "dmwappushservice":  "Disabled",
     "Dnscache":  "Automatic",
     "DoSvc":  "Manual",
     "dot3svc":  "Manual",
