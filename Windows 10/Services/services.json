@@ -316,7 +316,7 @@
     "WdNisSvc":  "Manual",
     "WebClient":  "Disabled",
     "WebManagement":  "Disabled",
-    "Wecsvc":  "Manual",
+    "Wecsvc":  "Disabled",
     "WEPHOSTSVC":  "Manual",
     "wercplsupport":  "Manual",
     "WerSvc":  "Disabled",
